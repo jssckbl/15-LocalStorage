@@ -40,7 +40,8 @@
       text: text,
       done: false
     }
-    console.log(item);
+    // 'this' is the form element, and 'reset' is the form element method
+    this.reset();
   }
 
   addItems.addEventListener('submit', addItem);
