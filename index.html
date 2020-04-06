@@ -31,16 +31,16 @@
   const items = [];
 
   function addItem(e) {
-    console.log('hello');
+    // console.log('hello');
     // page is auto reloading because it is a form so we want to stop that
     e.preventDefault();
-    const text = this.querySelector('[name=item]')
+    const text = this.querySelector('[name=item]').value;
       // 'this' refers to the entire form tag and looks for an attribute corresponding to the name=item
     const item = {
-      text: 'Item Name',
+      text: text,
       done: false
     }
-
+    console.log(item);
   }
 
   addItems.addEventListener('submit', addItem);
