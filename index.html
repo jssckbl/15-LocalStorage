@@ -37,12 +37,34 @@
     const text = this.querySelector('[name=item]').value;
       // 'this' refers to the entire form tag and looks for an attribute corresponding to the name=item
     const item = {
-      text: text,
+      // below is an ES6 version that is shorter than usual 'text: text,'
+      text,
       done: false
     }
+    // below puts each item into separate objects
+    items.push(item);
+    //
+    populateList(items, itemsList);
     // 'this' is the form element, and 'reset' is the form element method
     this.reset();
   }
+
+  // create the actual html to populate lists
+  // it needs two things, 1) an array of plates of food and 2) a destination html element
+  function populateList (plates = [], platesList) {
+    // map takes in an array of raw data and returns an array of some other data
+    // we are going to take in an object and return a string
+    platesList.innerHTML = plates.map((plate, i) => {
+      return `
+      <li>
+        <label for="">${plate.text}</label>
+      </li>
+      `;
+    // map will return an array and .join will make it into one big string  
+    }).join('');
+  }
+
+
 
   addItems.addEventListener('submit', addItem);
 
