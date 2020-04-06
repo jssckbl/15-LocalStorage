@@ -43,7 +43,7 @@
     }
     // below puts each item into separate objects
     items.push(item);
-    //
+    // every time we add an item, we recreate/rerender the entire list
     populateList(items, itemsList);
     // 'this' is the form element, and 'reset' is the form element method
     this.reset();
@@ -57,7 +57,8 @@
     platesList.innerHTML = plates.map((plate, i) => {
       return `
       <li>
-        <label for="">${plate.text}</label>
+        <input type="checkbox" data-index${i} id="item${i}"/>
+        <label for="item${i}">${plate.text}</label>
       </li>
       `;
     // map will return an array and .join will make it into one big string  
