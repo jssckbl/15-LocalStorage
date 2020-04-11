@@ -28,7 +28,9 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  // below variable is set to first look for what might be in local storage, and if 
+  // nothing is there, then it will be an empty array
+  const items = JSON.parse(localStorage.getItem('items')) || [];
 
   function addItem(e) {
     // console.log('hello');
@@ -45,6 +47,8 @@
     items.push(item);
     // every time we add an item, we recreate/rerender the entire list
     populateList(items, itemsList);
+    // 
+    localStorage.setItem('items', JSON.stringify(items));
     // 'this' is the form element, and 'reset' is the form element method
     this.reset();
   }
@@ -57,7 +61,7 @@
     platesList.innerHTML = plates.map((plate, i) => {
       return `
       <li>
-        <input type="checkbox" data-index${i} id="item${i}"/>
+        <input type="checkbox" data-index${i} id="item${i}" ${plate.done ? 'checked' : ''}/>
         <label for="item${i}">${plate.text}</label>
       </li>
       `;
@@ -68,6 +72,10 @@
 
 
   addItems.addEventListener('submit', addItem);
+
+  // one of the last steps, and we do NOT have to JSON.parse
+  // remember, items do not exist upon page load
+  populateList(items, itemsList);
 
 </script>
 
