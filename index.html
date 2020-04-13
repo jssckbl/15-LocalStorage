@@ -36,18 +36,18 @@
     // console.log('hello');
     // page is auto reloading because it is a form so we want to stop that
     e.preventDefault();
-    const text = this.querySelector('[name=item]').value;
+    const text = (this.querySelector('[name=item]')).value;
       // 'this' refers to the entire form tag and looks for an attribute corresponding to the name=item
     const item = {
       // below is an ES6 version that is shorter than usual 'text: text,'
       text,
       done: false
-    }
+    };
     // below puts each item into separate objects
     items.push(item);
     // every time we add an item, we recreate/rerender the entire list
     populateList(items, itemsList);
-    // 
+    // when you add an item, you put it into local storage
     localStorage.setItem('items', JSON.stringify(items));
     // 'this' is the form element, and 'reset' is the form element method
     this.reset();
@@ -61,7 +61,7 @@
     platesList.innerHTML = plates.map((plate, i) => {
       return `
       <li>
-        <input type="checkbox" data-index${i} id="item${i}" ${plate.done ? 'checked' : ''}/>
+        <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
         <label for="item${i}">${plate.text}</label>
       </li>
       `;
@@ -69,13 +69,23 @@
     }).join('');
   }
 
+  // listen for the click on the unordered list (the items list)
+  function toggleDone(e) {
+    // event delegation below
+    if (!e.target.matches('input')) return; // skip this unless it's an input
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
 
-
-  addItems.addEventListener('submit', addItem);
+    addItems.addEventListener('submit', addItem);
+    itemsList.addEventListener('click', toggleDone);
 
   // one of the last steps, and we do NOT have to JSON.parse
   // remember, items do not exist upon page load
-  populateList(items, itemsList);
+    populateList(items, itemsList);
 
 </script>
 
